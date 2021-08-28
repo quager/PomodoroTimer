@@ -130,7 +130,8 @@ namespace PomodoroTimer
 			}
 
 			DisposeTimer();
-			_timer = new Clock(new TimerCallback(OnTaskTimer), null, 0, OneSecond);
+			TimerCallback callback = State == TimerState.PauseTime ? new TimerCallback(OnPauseTimer) : new TimerCallback(OnTaskTimer);
+			_timer = new Clock(callback, null, 0, OneSecond);
 		}
 
 		private void Pause()

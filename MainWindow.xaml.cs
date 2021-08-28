@@ -127,10 +127,10 @@ namespace PomodoroTimer
 			_contextMenu.Items.AddRange(new[] { openMenuItem, exitMenuItem });
 
 			_notifyIcon = new NotifyIcon();
-			_notifyIcon.DoubleClick += new EventHandler(OnNotifyIconDoubleClick);
+			_notifyIcon.MouseClick += new MouseEventHandler(OnNotifyIconClick);
 			_notifyIcon.Icon = PomodoroTimer.Resources.CommonResources.Icon;
 			_notifyIcon.ContextMenuStrip = _contextMenu;
-			_notifyIcon.Text = System.Windows.Application.Current.GetType().ToString();
+			_notifyIcon.Text = System.Windows.Application.Current.MainWindow.Title;
 			_notifyIcon.Visible = true;
 
 			Settings = new Settings();
@@ -223,10 +223,16 @@ namespace PomodoroTimer
 			return storyboard;
 		}
 
-		private void OnNotifyIconDoubleClick(object sender, EventArgs e)
+		private void OnNotifyIconClick(object sender, MouseEventArgs e)
 		{
-			if (WindowState != WindowState.Minimized)
+			if (e.Button != MouseButtons.Left)
 				return;
+
+			if (WindowState != WindowState.Minimized)
+			{
+				OnHide(sender, null);
+				return;
+			}
 
 			RestoreWindow();
 		}
