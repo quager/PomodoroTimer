@@ -161,8 +161,9 @@ namespace PomodoroTimer
 
 			if (Settings.WindowArea.Height > 0 && Settings.WindowArea.Width > 0)
 			{
-				Left = Settings.WindowArea.Left;
-				Top = Settings.WindowArea.Top;
+				Screen screen = Screen.FromPoint(new System.Drawing.Point((int)Settings.WindowArea.Left, (int)Settings.WindowArea.Top));
+				Left = Math.Min(Settings.WindowArea.Left, screen.WorkingArea.X + screen.WorkingArea.Width - Width);
+				Top = Math.Min(Settings.WindowArea.Top, screen.WorkingArea.Y + screen.WorkingArea.Height - Height);
 				Width = Settings.WindowArea.Width;
 				Height = Settings.WindowArea.Height;
 			}
